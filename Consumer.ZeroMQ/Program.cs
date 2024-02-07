@@ -1,4 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using Core.ZeroMQ.Extensions;
+using Core.ZeroMQ.Models;
 using NetMQ;
 using NetMQ.Sockets;
 
@@ -32,13 +34,26 @@ using (var subscriber = new SubscriberSocket())
 {
     subscriber.Connect("tcp://localhost:5555");
     subscriber.Subscribe("A");
+    subscriber.Subscribe("B");
 
     while (true)
     {
-        var topic = subscriber.ReceiveFrameString();
-        var msg = subscriber.ReceiveFrameString();
+        //var topic = subscriber.ReceiveFrameString();
+        try
+        {
+            var msg = subscriber.ReceiveMultipartBytes(1);//.ReceiveFrameBytes();//.ReceiveFrameString();
 
-        Console.WriteLine("From Publisher: {0} {1}", topic, msg);
+            var trade = msg[1].DeserializeFromByteArrayProtobuf<Trade>();
+            Console.WriteLine("From Publisher tipo mensagem {0}, MaxFloor {1}, account {2}, Balance {3} ",
+                trade.messageType,
+                trade.MaxFloor,
+                trade.Account,
+                trade.Balance);
+        }catch(Exception ex)
+        {
+
+        }
+        //Console.WriteLine("From Publisher: {0} {1}", topic, msg);
     }
 }
 

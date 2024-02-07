@@ -1,4 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using Core.ZeroMQ.Extensions;
+using Core.ZeroMQ.Models;
 using NetMQ;
 using NetMQ.Sockets;
 
@@ -36,13 +38,24 @@ using (var publisher = new PublisherSocket())
     SpinWait spin = new SpinWait();
     while (true)
     {
+        //publisher
+        //   .SendMoreFrame("A") // Topic
+        //   .SendFrame(i.ToString()); // Message
+
+        var trade = new Trade("2", 100+i, 521452, 150+i);
+        var message = trade.SerializeToByteArrayProtobuf<Trade>();
+        
         publisher
-           .SendMoreFrame("A") // Topic
-           .SendFrame(i.ToString()); // Message
+            .SendMoreFrame("A")
+            .SendMultipartBytes(message);
+
+        publisher
+            .SendMoreFrame("B")
+            .SendMultipartBytes(message);
 
         i++;
 
-        if ((i % 1000) == 0 )
+        if ((i % 10000) == 0 )
         //spin.SpinOnce(1);
         Thread.Sleep(1);
     }
