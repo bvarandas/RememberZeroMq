@@ -1,0 +1,17 @@
+version: '3.4'
+services:
+  consumer.zeromq:
+    environment:
+      - "network__path=zeromq"
+    networks:
+      - zeromq
+  
+  producer.zeromq:
+    environment:
+      - "network__path=zeromq"
+    networks:
+      - zeromq
+
+networks:
+    zeromq:
+        driver: bridge  

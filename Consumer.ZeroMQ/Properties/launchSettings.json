@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Consumer.ZeroMQ": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

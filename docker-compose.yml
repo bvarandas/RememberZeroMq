@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  consumer.zeromq:
+    image: ${DOCKER_REGISTRY-}consumerzeromq
+    build:
+      context: .
+      dockerfile: Consumer.ZeroMQ/Dockerfile
+
+  producer.zeromq:
+    image: ${DOCKER_REGISTRY-}producerzeromq
+    build:
+      context: .
+      dockerfile: Producer.ZeroMQ/Dockerfile
+

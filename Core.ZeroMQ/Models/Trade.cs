@@ -21,13 +21,17 @@ public class Trade
     [ProtoMember(4)]
     public int Balance { get; set; }
 
+    [ProtoMember(5)]
+    public long Send { get; set; }
+
     public Trade() { }
 
-    public Trade(string messageType, int maxFloor, int account, int balance)
+    public Trade(string messageType, int maxFloor, int account, int balance, long send)
     {
         this.messageType = messageType;
         MaxFloor = maxFloor;
         Account = account;
         Balance = balance;
+        Send = send;
     }
 }
