@@ -5,12 +5,28 @@ services:
       - "network__path=zeromq"
     networks:
       - zeromq
-  
+    deploy:
+      resources:
+        limits:
+          cpus: '0.05'
+          memory: 200M
+        reservations:
+          cpus: '1.0'
+          memory: 200M
+
   producer.zeromq:
     environment:
       - "network__path=zeromq"
     networks:
       - zeromq
+    deploy:
+      resources:
+        limits:
+          cpus: '2.5'
+          memory: 200M
+        # reservations:
+        #   cpus: '0.0001'
+        #   memory: 20M
 
 networks:
     zeromq:
